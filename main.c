@@ -21,8 +21,11 @@ size_t input_size(const char *, Err *);
 int main()
 {
     Err err;
-    size_t msize = input_size("Input size of table: ", &err);
-    ERR_CHECK(NULL, err);
+    size_t msize = 0;
+    #ifdef MSIZE
+        msize = input_size("Input size of table: ", &err);
+        ERR_CHECK(NULL, err);
+    #endif
     Table *table = table_init(msize, &err);
     ERR_CHECK(NULL, err);
     menu(table, &err);

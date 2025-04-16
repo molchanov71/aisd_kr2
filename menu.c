@@ -52,7 +52,7 @@ void menu_insert(Table *table, Err *err)
         *err = EOF_ERR;
         return;
     }
-    if (search_el(table, key, err))
+    if (search_el(table, key, NULL, err))
     {
         *err = NUNIQUE;
         return;
@@ -98,15 +98,10 @@ void menu_search(const Table *table, Err *err)
         free(key);
         return;
     }
-    const Node *el = search_el(table, key, err);
+    const Node *el = search_el(table, key, NULL, err);
     if (el && *err == OK)
         print_el(el);
     free(key);
-}
-
-void print_el(const Node *el)
-{
-    printf("{key: \"%s\", info: %d}\n", el->key, el->info);
 }
 
 int input_num(const char *s, int min, int max, Err *err)

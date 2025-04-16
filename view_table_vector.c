@@ -5,12 +5,18 @@
 #include <string.h>
 #include "errors.h"
 #include "table.h"
-#include "menu.h"
 
 struct Table
 {
     size_t msize;
-    Node *arr;
+    struct Node *arr;
+};
+
+struct Node
+{
+    bool busy;
+    char *key;
+    int info;
 };
 
 Table *table_init(size_t msize, Err *err)
@@ -71,7 +77,7 @@ void insert_el(Table *table, const char *key, int info, Err *err)
 
 void remove_el(Table *table, const char *key, Err *err)
 {
-    Node *ptr = (Node *)search_el(table, key, err);
+    Node *ptr = (Node *)search_el(table, key, NULL, err);
     if (!ptr || *err != OK)
     {
         *err = NFOUND;
@@ -86,7 +92,7 @@ void remove_el(Table *table, const char *key, Err *err)
     *err = NFOUND;
 }
 
-const Node *search_el(const Table *table, const char *key, Err *err)
+const Node *search_el(const Table *table, const char *key, Node **, Err *err)
 {
     for (Node *ptr = table->arr; ptr < table->arr + table->msize; ptr++)
         if (ptr->busy && !strcmp(key, ptr->key))
@@ -96,6 +102,11 @@ const Node *search_el(const Table *table, const char *key, Err *err)
         }
     *err = NFOUND;
     return NULL;
+}
+
+void print_el(const Node *el)
+{
+    printf("{key: \"%s\", info: %d}\n", el->key, el->info);
 }
 
 void print_table(const Table *table)
