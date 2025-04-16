@@ -9,7 +9,8 @@ typedef enum Err
     NUNIQUE = 3,
     TABLE_OVF = 4,
     NFOUND = 5,
-    NINIT = 6
+    NINIT = 6,
+    EMPTY = 7
 } Err;
 
 #endif
